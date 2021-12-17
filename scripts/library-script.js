@@ -14,7 +14,7 @@
 
 
 
-/********************** DECLARE VARIABLES */
+/********************** DECLARE VARIABLES ************************************/
 const video = document.getElementById('video');
 const videoSrc = video.src;
 const playButton = document.getElementById('playBtn');
@@ -26,7 +26,7 @@ document.getElementById("video").loop = false;
 document.getElementById("looped").src = "../artwork/buttons/No-Loop_Yellow.png";
 document.getElementById("free-switch").src = "../artwork/buttons/Loop_Yellow.png";
 
-/******************MAIN FUNCTIONS */
+/****************** MAIN FUNCTIONS *****************************************/
 
 //Populate first dropdown from the first key, which is the name of the asset
 function dropdownInit(clicked_id) {
@@ -70,6 +70,10 @@ function secondDropdownChange() {
     finalDBPath = finalDBPath.replace("JB2A_DnD5e", "jb2a_patreon")
   }
   document.getElementById('video').src = finalDBPath;
+
+  //Display name under the Video
+  let aName = capitalizeTheFirstLetterOfEachWord(selectedFirst.replace(/_/g, " "));
+  document.getElementById(`assetName`).innerHTML = `${aName}`;
 }
 
 //Switch between the free/patreon database
@@ -179,7 +183,7 @@ document.getElementById('themeButton').onclick = toggleTheme;
 
 
 
-/************ HELPER FUNCTIONS ***************************/
+/************ HELPER FUNCTIONS *********************************************************/
 
 function log(e) {
   console.log(e);
@@ -239,9 +243,17 @@ Object.byString = function (o, s) {
   return o;
 }
 
+function capitalizeTheFirstLetterOfEachWord(words) {
+  var separateWord = words.toLowerCase().split(' ');
+  for (var i = 0; i < separateWord.length; i++) {
+     separateWord[i] = separateWord[i].charAt(0).toUpperCase() +
+     separateWord[i].substring(1);
+  }
+  return separateWord.join(' ');
+}
 
 
-/******************NEEDS UPDATING TO NEW VERSION */
+/******************NEEDS UPDATING TO NEW VERSION ******************************************/
 
 //NOTE : NEEDS UPDATING
 //Clipboard Functionality
@@ -261,20 +273,14 @@ function copy(id) {
 // document.querySelector('#copy-free').addEventListener("click", copy('input-free'));
 // document.querySelector('#copy-patreon').addEventListener("click", copy('input-patreon'));
 
-// NOTE : NEEDS UPDATING TO NEW VERSION
-// Display name of the currently selected asset underneath the video
-var elements = document.getElementsByClassName('sideBtn');
-elements.onclick = function () {
-  nameChange = document.getElementById('assetName');
-  nameChange.innerHTML = `${elements.innerHTML}`;
-
-}
 
 
 
 
 
 
+
+/*****************BONUS CONTENT !! :) ******************************************/
 //Bonus Content
 document.getElementById('ee-link').addEventListener("mouseover", function ee() {
   document.getElementById('ee-link').style = 'display: flex; justify-content: center; align-items:center; width: 150px; height: 100px; text-align: center; ';
