@@ -14,20 +14,65 @@
 
 
 
-
+/********************** DECLARE VARIABLES */
 const video = document.getElementById('video');
 const videoSrc = video.src;
 const playButton = document.getElementById('playBtn');
-const sideButtons = document.getElementsByClassName("sideBtn");
 const currentLetter = "";
-var sideButtonsArray = Array.prototype.slice.call(sideButtons);
-document.getElementById("video").loop = false;
-document.getElementById("looped").src = "../artwork/buttons/No-Loop_Yellow.png";
-var scripts = document.getElementsByTagName('script');
 let isFreeDB = true;
 let DB = freeDatabase;
 
+document.getElementById("video").loop = false;
+document.getElementById("looped").src = "../artwork/buttons/No-Loop_Yellow.png";
+document.getElementById("free-switch").src = "../artwork/buttons/Loop_Yellow.png";
 
+/******************MAIN FUNCTIONS */
+
+//Populate first dropdown from the first key, which is the name of the asset
+function dropdownInit(clicked_id) {
+
+  let currentLetter = clicked_id;
+  let currentKeys = Object.keys(DB).filter(e => e.startsWith(currentLetter.toLowerCase())); //get the asset names starting with letter corresponding to id
+
+  removeOptions(document.getElementById('asset-names'));//clear the first dropdown
+  for (let entry of currentKeys) {
+
+    document.getElementById('asset-names').options.add(new Option(entry, entry));//add each asset in the first dropdown
+    let data = entry.replace(/['"]+/g, '');//Removes the "" or the '' from a string
+    let allLevel1 = dbReduce(DB[data]); //get all db properties after the asset name
+  }
+  let firstEntries = dbReduce(DB[currentKeys[0]]);
+  removeOptions(document.getElementById('attribute-01'));
+  for (firstEntry of firstEntries) {
+    document.getElementById('attribute-01').options.add(new Option(firstEntry, firstEntry));
+  }
+  firstDropdownChange()
+}
+
+function firstDropdownChange() {
+  let selectedIndex = document.getElementById('asset-names').value;
+  let firstEntries = dbReduce(DB[selectedIndex]);
+  removeOptions(document.getElementById('attribute-01'));
+  for (firstEntry of firstEntries) {
+    document.getElementById('attribute-01').options.add(new Option(firstEntry, firstEntry));
+  }
+  secondDropdownChange()
+}
+
+function secondDropdownChange() {
+  let selectedFirst = document.getElementById('asset-names').value;
+  let selectedSecondIndex = document.getElementById('attribute-01').selectedIndex;
+  let firstEntries = dbReduce(DB[selectedFirst]);
+
+  let finalPath = selectedFirst + "." + firstEntries[selectedSecondIndex];
+  let finalDBPath = Object.byString(DB, finalPath);
+  if (isFreeDB === true) {
+    finalDBPath = finalDBPath.replace("JB2A_DnD5e", "jb2a_patreon")
+  }
+  document.getElementById('video').src = finalDBPath;
+}
+
+//Switch between the free/patreon database
 function freeSwitch() {
   if (isFreeDB == true) {
     log("setting to false");
@@ -56,7 +101,90 @@ function freeSwitch() {
 }
 
 
+
+
+
+function LoopedIcon() {
+  if (document.getElementById("video").loop == true) {
+    document.getElementById("video").loop = false;
+    document.getElementById("looped").src = "../artwork/buttons/No-Loop_Yellow.png";
+
+  }
+  else {
+    document.getElementById("video").loop = true;
+    document.getElementById("looped").src = "../artwork/buttons/Loop_Yellow.png";
+  }
+
+}
+
+function togglePlay() {
+  if (video.paused || video.ended) {
+    video.play();
+  } else {
+    video.pause();
+  }
+}
+
+//Making Sure The Video Controls are off
+const videoWorks = !!document.createElement('video').canPlayType;
+if (videoWorks) {
+  video.controls = false;
+}
+
+playButton.addEventListener('click', togglePlay);
+
+
+const themeMap = {
+  dark: "light",
+  light: "dark",
+};
+
+
+const current = localStorage.getItem('theme');
+const theme = localStorage.getItem('theme')
+  || (tmp = Object.keys(themeMap)[0],
+    localStorage.setItem('theme', tmp),
+    tmp);
+const bodyClass = document.body.classList;
+bodyClass.add(theme);
+
+
+if (current == "light") {
+  document.getElementById("themeIcon").src = "../artwork/buttons/Sun_Yellow.png";
+}
+else {
+  document.getElementById("themeIcon").src = "../artwork/buttons/Moon_Yellow.png";
+}
+
+
+
+function toggleTheme() {
+  const current = localStorage.getItem('theme');
+  const next = themeMap[current];
+
+
+  if (current == "dark") {
+    document.getElementById("themeIcon").src = "../artwork/buttons/Sun_Yellow.png";
+  }
+  else {
+    document.getElementById("themeIcon").src = "../artwork/buttons/Moon_Yellow.png";
+  }
+
+
+  bodyClass.replace(current, next);
+  localStorage.setItem('theme', next);
+}
+
+document.getElementById('themeButton').onclick = toggleTheme;
+
+
+
 /************ HELPER FUNCTIONS ***************************/
+
+function log(e) {
+  console.log(e);
+}
+
 //Helper Function to add or rewrite html content from its divselector which is the id of a tag
 async function writeContent(divSelector, value) {
   document.querySelector(divSelector).innerHTML += value;
@@ -112,146 +240,10 @@ Object.byString = function (o, s) {
 }
 
 
-//Populate first dropdown from the first key, which is the name of the asset
-function dropdownInit(clicked_id) {
 
-  let currentLetter = clicked_id;
-  let currentKeys = Object.keys(DB).filter(e => e.startsWith(currentLetter.toLowerCase())); //get the asset names starting with letter corresponding to id
+/******************NEEDS UPDATING TO NEW VERSION */
 
-  removeOptions(document.getElementById('asset-names'));//clear the first dropdown
-  for (let entry of currentKeys) {
-
-    document.getElementById('asset-names').options.add(new Option(entry, entry));//add each asset in the first dropdown
-    let data = entry.replace(/['"]+/g, '');//Removes the "" or the '' from a string
-    let allLevel1 = dbReduce(DB[data]); //get all db properties after the asset name
-  }
-  let firstEntries = dbReduce(DB[currentKeys[0]]);
-  removeOptions(document.getElementById('attribute-01'));
-  for (firstEntry of firstEntries) {
-    document.getElementById('attribute-01').options.add(new Option(firstEntry, firstEntry));
-  }
-  firstDropdownChange()
-}
-
-
-
-
-
-function firstDropdownChange() {
-  let selectedIndex = document.getElementById('asset-names').value;
-  let firstEntries = dbReduce(DB[selectedIndex]);
-  removeOptions(document.getElementById('attribute-01'));
-  for (firstEntry of firstEntries) {
-    document.getElementById('attribute-01').options.add(new Option(firstEntry, firstEntry));
-  }
-  secondDropdownChange()
-}
-
-function secondDropdownChange() {
-  let selectedFirst = document.getElementById('asset-names').value;
-  let selectedSecondIndex = document.getElementById('attribute-01').selectedIndex;
-  let firstEntries = dbReduce(DB[selectedFirst]);
-
-  let finalPath = selectedFirst + "." + firstEntries[selectedSecondIndex];
-  let finalDBPath = Object.byString(DB, finalPath);
-  if (isFreeDB === true) {
-    finalDBPath = finalDBPath.replace("JB2A_DnD5e", "jb2a_patreon")
-  }
-  document.getElementById('video').src = finalDBPath;
-}
-
-
-
-
-
-
-playButton.addEventListener('click', togglePlay);
-
-function log(e) {
-  console.log(e);
-}
-
-//NEEDS UPDATING TO NEW VERSION
-var elements = document.getElementsByClassName('sideBtn');
-elements.onclick = function () {
-  nameChange = document.getElementById('assetName');
-  nameChange.innerHTML = `${elements.innerHTML}`;
-
-}
-
-
-function LoopedIcon() {
-  if (document.getElementById("video").loop == true) {
-    document.getElementById("video").loop = false;
-    document.getElementById("looped").src = "../artwork/buttons/No-Loop_Yellow.png";
-
-  }
-  else {
-    document.getElementById("video").loop = true;
-    document.getElementById("looped").src = "../artwork/buttons/Loop_Yellow.png";
-  }
-
-}
-
-function togglePlay() {
-  if (video.paused || video.ended) {
-    video.play();
-  } else {
-    video.pause();
-  }
-}
-
-
-playButton.addEventListener('click', togglePlay);
-
-
-
-
-
-//dark or light theme
-const themeMap = {
-  dark: "light",
-  light: "dark",
-};
-
-
-const current = localStorage.getItem('theme');
-const theme = localStorage.getItem('theme')
-  || (tmp = Object.keys(themeMap)[0],
-    localStorage.setItem('theme', tmp),
-    tmp);
-const bodyClass = document.body.classList;
-bodyClass.add(theme);
-
-
-if (current == "light") {
-  document.getElementById("themeIcon").src = "../artwork/buttons/Sun_Yellow.png";
-}
-else {
-  document.getElementById("themeIcon").src = "../artwork/buttons/Moon_Yellow.png";
-}
-
-
-
-function toggleTheme() {
-  const current = localStorage.getItem('theme');
-  const next = themeMap[current];
-
-
-  if (current == "dark") {
-    document.getElementById("themeIcon").src = "../artwork/buttons/Sun_Yellow.png";
-  }
-  else {
-    document.getElementById("themeIcon").src = "../artwork/buttons/Moon_Yellow.png";
-  }
-
-
-  bodyClass.replace(current, next);
-  localStorage.setItem('theme', next);
-}
-
-document.getElementById('themeButton').onclick = toggleTheme;
-
+//NOTE : NEEDS UPDATING
 //Clipboard Functionality
 function copy(id) {
   str1 = "#";
@@ -269,6 +261,18 @@ function copy(id) {
 // document.querySelector('#copy-free').addEventListener("click", copy('input-free'));
 // document.querySelector('#copy-patreon').addEventListener("click", copy('input-patreon'));
 
+// NOTE : NEEDS UPDATING TO NEW VERSION
+// Display name of the currently selected asset underneath the video
+var elements = document.getElementsByClassName('sideBtn');
+elements.onclick = function () {
+  nameChange = document.getElementById('assetName');
+  nameChange.innerHTML = `${elements.innerHTML}`;
+
+}
+
+
+
+
 
 
 //Bonus Content
@@ -280,12 +284,5 @@ document.getElementById('ee-link').addEventListener("mouseover", function ee() {
 
 
 
-//Making Sure The Video Controls are off
-const videoWorks = !!document.createElement('video').canPlayType;
-if (videoWorks) {
-  video.controls = false;
 
-
-
-}
 
