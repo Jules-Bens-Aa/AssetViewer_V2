@@ -19,7 +19,7 @@ const videoSrc = video.src;
 const playButton = document.getElementById('playBtn');
 const currentLetter = "";
 let isFreeDB = true;
-let DB = freeDatabase;
+let DB = filterObject(freeDatabase, '_template');
 
 document.getElementById("video").loop = false;
 document.getElementById("looped").src = "../artwork/buttons/No-Loop_Yellow.png";
@@ -29,12 +29,16 @@ document.getElementById("db-input").value = "Sequencer Database path can be copi
 
 /****************** MAIN FUNCTIONS *****************************************/
 
+
+
+
+
 //Populate first dropdown from the first key, which is the name of the asset
 function dropdownInit(clicked_id) {
 
   let currentLetter = clicked_id;
   let currentKeys = Object.keys(DB).filter(e => e.startsWith(currentLetter.toLowerCase())); //get the asset names starting with letter corresponding to id
-
+  
   removeOptions(document.getElementById('asset-names'));//clear the first dropdown
   for (let entry of currentKeys) {
 
@@ -74,9 +78,7 @@ function secondDropdownChange() {
     finalFilePathCopy = finalDBPath;
     finalDBPath = finalDBPath.replace("JB2A_DnD5e", "jb2a_patreon")
   }
-  else{
 
-  }
   document.getElementById('video').src = finalDBPath;
 
   //Display name under the Video
@@ -93,7 +95,7 @@ function freeSwitch() {
   if (isFreeDB == true) {
     log("setting to false");
     isFreeDB = false;
-    DB = patreonDatabase;
+    DB = filterObject(patreonDatabase, '_template');
     //  log(isFreeDB);
     //  log(DB);
     document.getElementById("free-switch").src = "../artwork/buttons/No-Loop_Yellow.png";// Placeholder image
@@ -105,7 +107,7 @@ function freeSwitch() {
   else {
     log("setting to true");
     isFreeDB = true;
-    DB = freeDatabase;
+    DB = filterObject(freeDatabase, '_template');
     //  log(isFreeDB);
     //  log(DB);
     document.getElementById("free-switch").src = "../artwork/buttons/Loop_Yellow.png";// Placeholder image
@@ -208,7 +210,7 @@ function copy(id) {
   }
 }
 
-/************ HELPER FUNCTIONS *********************************************************/
+/************ HELPER FUNCTIONS *************************************/
 
 function log(e) {
   console.log(e);
@@ -278,9 +280,18 @@ function capitalizeTheFirstLetterOfEachWord(words) {
 }
 
 
-
-
-
+// removes specific key property from an object
+function filterObject(obj, key) {
+  for (var i in obj) {
+      if (!obj.hasOwnProperty(i)) continue;
+      if (i == key) {
+          delete obj[key];
+      } else if (typeof obj[i] == 'object') {
+          filterObject(obj[i], key);
+      }
+  }
+  return obj;
+}
 
 
 
