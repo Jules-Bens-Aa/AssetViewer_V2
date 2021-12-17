@@ -13,7 +13,6 @@
  */
 
 
-
 /********************** DECLARE VARIABLES ************************************/
 const video = document.getElementById('video');
 const videoSrc = video.src;
@@ -25,6 +24,8 @@ let DB = freeDatabase;
 document.getElementById("video").loop = false;
 document.getElementById("looped").src = "../artwork/buttons/No-Loop_Yellow.png";
 document.getElementById("free-switch").src = "../artwork/buttons/Loop_Yellow.png";
+document.getElementById("filepath-input").value = "Path to the asset can be copied from here";
+document.getElementById("db-input").value = "Sequencer Database path can be copied from here";
 
 /****************** MAIN FUNCTIONS *****************************************/
 
@@ -63,17 +64,28 @@ function secondDropdownChange() {
   let selectedFirst = document.getElementById('asset-names').value;
   let selectedSecondIndex = document.getElementById('attribute-01').selectedIndex;
   let firstEntries = dbReduce(DB[selectedFirst]);
-
+  let finalFilePathCopy = "";
   let finalPath = selectedFirst + "." + firstEntries[selectedSecondIndex];
+  let finalDBPathCopy = "jb2a." + finalPath;
   let finalDBPath = Object.byString(DB, finalPath);
+
+   
   if (isFreeDB === true) {
+    finalFilePathCopy = finalDBPath;
     finalDBPath = finalDBPath.replace("JB2A_DnD5e", "jb2a_patreon")
+  }
+  else{
+
   }
   document.getElementById('video').src = finalDBPath;
 
   //Display name under the Video
   let aName = capitalizeTheFirstLetterOfEachWord(selectedFirst.replace(/_/g, " "));
   document.getElementById(`assetName`).innerHTML = `${aName}`;
+
+  //Display filepath and sequencer db path, ready to be copied
+  document.getElementById("filepath-input").value = `${finalFilePathCopy}`;
+  document.getElementById("db-input").value = finalDBPathCopy;
 }
 
 //Switch between the free/patreon database
@@ -181,7 +193,20 @@ function toggleTheme() {
 
 document.getElementById('themeButton').onclick = toggleTheme;
 
-
+//Clipboard Functionality
+function copy(id) {
+  str1 = "#";
+  copyTextId = str1.concat(id);
+  var copyText = document.querySelector(`${copyTextId}`);
+  copyText.select();
+  document.execCommand("copy");
+  if (id === 'filepath-input') {
+    document.getElementById(`${id}`).value = "Path to the asset - Copy Successful !";
+  }
+  else {
+    document.getElementById(`${id}`).value = "Sequencer Database - Copy Successful !";
+  }
+}
 
 /************ HELPER FUNCTIONS *********************************************************/
 
@@ -253,25 +278,8 @@ function capitalizeTheFirstLetterOfEachWord(words) {
 }
 
 
-/******************NEEDS UPDATING TO NEW VERSION ******************************************/
 
-//NOTE : NEEDS UPDATING
-//Clipboard Functionality
-function copy(id) {
-  str1 = "#";
-  copyTextId = str1.concat(id);
-  var copyText = document.querySelector(`${copyTextId}`);
-  copyText.select();
-  document.execCommand("copy");
-  if (id === 'input-free') {
-    document.getElementById(`${id}`).value = "Path to the free asset - Copy Successful !";
-  }
-  else {
-    document.getElementById(`${id}`).value = "Path to the Patreon asset - Copy Successful !";
-  }
-}
-// document.querySelector('#copy-free').addEventListener("click", copy('input-free'));
-// document.querySelector('#copy-patreon').addEventListener("click", copy('input-patreon'));
+
 
 
 
