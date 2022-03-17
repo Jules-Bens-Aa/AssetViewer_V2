@@ -22,14 +22,18 @@ let isFreeDB = true;
 let DB = filterObject(freeDatabase, '_template');
 
 document.getElementById("video").loop = false;
-document.getElementById("looped").src = "../artwork/buttons/No-Loop_Yellow.png";
-document.getElementById("free-switch").src = "../artwork/buttons/Loop_Yellow.png";
+document.getElementById("looped").src = "artwork/buttons/No-Loop_Yellow.png";
+document.getElementById("free-switch").src = "artwork/buttons/Loop_Yellow.png";
 document.getElementById("filepath-input").value = "Path to the asset can be copied from here";
 document.getElementById("db-input").value = "Sequencer Database path can be copied from here";
 
 /****************** MAIN FUNCTIONS *****************************************/
 
-
+log(dbReduce(DB['arcane_hand']));
+//let query = DB['club']['melee']['01']['white'];
+let query = DB['arcane_hand']['blue'];
+log(Array.isArray(query))
+log(query)
 
 
 
@@ -72,6 +76,7 @@ function secondDropdownChange() {
   let finalPath = selectedFirst + "." + firstEntries[selectedSecondIndex];
   let finalDBPathCopy = "jb2a." + finalPath;
   let finalDBPath = Object.byString(DB, finalPath);
+  //log(firstEntries)
 
    
   if (isFreeDB === true) {
@@ -88,7 +93,10 @@ function secondDropdownChange() {
   //Display filepath and sequencer db path, ready to be copied
   document.getElementById("filepath-input").value = `${finalFilePathCopy}`;
   document.getElementById("db-input").value = finalDBPathCopy;
+ 
 }
+
+
 
 //Switch between the free/patreon database
 function freeSwitch() {
@@ -98,7 +106,7 @@ function freeSwitch() {
     DB = filterObject(patreonDatabase, '_template');
     //  log(isFreeDB);
     //  log(DB);
-    document.getElementById("free-switch").src = "../artwork/buttons/No-Loop_Yellow.png";// Placeholder image
+    document.getElementById("free-switch").src = "artwork/buttons/No-Loop_Yellow.png";// Placeholder image
     if (document.getElementById('attribute-01').selectedIndex > -1) {
       firstDropdownChange()
     }
@@ -110,7 +118,7 @@ function freeSwitch() {
     DB = filterObject(freeDatabase, '_template');
     //  log(isFreeDB);
     //  log(DB);
-    document.getElementById("free-switch").src = "../artwork/buttons/Loop_Yellow.png";// Placeholder image
+    document.getElementById("free-switch").src = "artwork/buttons/Loop_Yellow.png";// Placeholder image
 
   }
   if (document.getElementById('attribute-01').selectedIndex > -1) {
@@ -125,12 +133,12 @@ function freeSwitch() {
 function LoopedIcon() {
   if (document.getElementById("video").loop == true) {
     document.getElementById("video").loop = false;
-    document.getElementById("looped").src = "../artwork/buttons/No-Loop_Yellow.png";
+    document.getElementById("looped").src = "artwork/buttons/No-Loop_Yellow.png";
 
   }
   else {
     document.getElementById("video").loop = true;
-    document.getElementById("looped").src = "../artwork/buttons/Loop_Yellow.png";
+    document.getElementById("looped").src = "artwork/buttons/Loop_Yellow.png";
   }
 
 }
@@ -168,10 +176,10 @@ bodyClass.add(theme);
 
 
 if (current == "light") {
-  document.getElementById("themeIcon").src = "../artwork/buttons/Sun_Yellow.png";
+  document.getElementById("themeIcon").src = "artwork/buttons/Sun_Yellow.png";
 }
 else {
-  document.getElementById("themeIcon").src = "../artwork/buttons/Moon_Yellow.png";
+  document.getElementById("themeIcon").src = "artwork/buttons/Moon_Yellow.png";
 }
 
 
@@ -182,10 +190,10 @@ function toggleTheme() {
 
 
   if (current == "dark") {
-    document.getElementById("themeIcon").src = "../artwork/buttons/Sun_Yellow.png";
+    document.getElementById("themeIcon").src = "artwork/buttons/Sun_Yellow.png";
   }
   else {
-    document.getElementById("themeIcon").src = "../artwork/buttons/Moon_Yellow.png";
+    document.getElementById("themeIcon").src = "artwork/buttons/Moon_Yellow.png";
   }
 
 
@@ -245,7 +253,7 @@ function dbReduce(obj) {
     return Object.entries(obj)
       .reduce((product, [key, value]) => {
         let fullPath = addDelimiter(head, key)
-        return isObject(value) ?
+        return isObject(value) ? 
           product.concat(paths(value, fullPath))
           : product.concat(fullPath)
       }, []);
@@ -303,7 +311,7 @@ function filterObject(obj, key) {
 //Bonus Content
 document.getElementById('ee-link').addEventListener("mouseover", function ee() {
   document.getElementById('ee-link').style = 'display: flex; justify-content: center; align-items:center; width: 150px; height: 100px; text-align: center; ';
-  document.getElementById('ee-link').innerHTML = '<img id="ee" style = "width: 50px; height: 50px;" src="../artwork/buttons/stairs-cake.png"/>The cake is a lie !'
+  document.getElementById('ee-link').innerHTML = '<img id="ee" style = "width: 50px; height: 50px;" src="artwork/buttons/stairs-cake.png"/>The cake is a lie !'
 
 });
 
