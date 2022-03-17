@@ -19,8 +19,28 @@
     <script src="./scripts/jb2a_free_sequencer.js" defer></script>
     <script src="./scripts/jb2a_patreon_sequencer.js" defer></script>
     <script src="./scripts/library-script.js" defer></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    <script>
 
+        function videoPlayer(){
+            return {
+                playing: true,
+                looping: true,
+                darkTheme: true,
+                src: 'modules/jb2a_patreon/Library/1st_Level/Arms_Of_Hadar/ArmsOfHadar_01_Dark_Purple_500x500.webm',
+                togglePlaying(){
+                    if(!this.playing){
+                        this.$refs.video.play();
+                    }else{
+                        this.$refs.video.pause();
+                    }
+                    this.playing = !this.playing;
+                }
+            }
+        }
+
+    </script>
 
     <!--   <strong class="new"> New !</strong> -->
 </head>
@@ -29,12 +49,17 @@
     <div class="info">
         <a href="https:\\jb2a.com" class="logoLink">
             <video oncontextmenu="return false" ; class="homeBtn" id="AnimatedLogo" autoplay="true" muted="true" loop>
+<<<<<<< Updated upstream
                 <source src="artwork/webm/banners/Circle_Icon_4sec_400x400.webm" type="video/webm">
                 </source>
+=======
+                <source src="./artwork/webm/banners/Circle_Icon_4sec_400x400.webm" type="video/webm"/>
+>>>>>>> Stashed changes
             </video>
         </a>
         <div class="socialBtn-container">
             <a class="socialBtn" href="https://www.patreon.com/JB2A">
+<<<<<<< Updated upstream
                 <img src="artwork/buttons/Patreon_Yellow.png">
             </a>
             <a class="socialBtn" href="https://www.youtube.com/channel/UCqLusRtLV7GXJo_xNNM3dOw/featured">
@@ -45,6 +70,18 @@
             </a>
             <a class="socialBtn" href="https://github.com/Jules-Bens-Aa/JB2A_DnD5e">
                 <img src="artwork/buttons/Github_Yellow.png">
+=======
+                <img src="./artwork/buttons/Patreon_Yellow.png">
+            </a>
+            <a class="socialBtn" href="https://www.youtube.com/channel/UCqLusRtLV7GXJo_xNNM3dOw/featured">
+                <img src="./artwork/buttons/Youtube_Yellow.png">
+            </a>
+            <a class="socialBtn" href="https://discord.gg/gmd8MAPX4m">
+                <img src="./artwork/buttons/Discord_Yellow.png">
+            </a>
+            <a class="socialBtn" href="https://github.com/Jules-Bens-Aa/JB2A_DnD5e">
+                <img src="./artwork/buttons/Github_Yellow.png">
+>>>>>>> Stashed changes
             </a>
         </div>
     </div>
@@ -56,7 +93,11 @@
 
             <button>
                 <a href="javascript:void(0);" onclick="freeSwitch()"><img class="uiBtn" id="free-switch"
+<<<<<<< Updated upstream
                         src="artwork/buttons/No-Loop_Yellow.png" isFree=true;></a>
+=======
+                        src="./artwork/buttons/No-Loop_Yellow.png" isFree=true;></a>
+>>>>>>> Stashed changes
             </button>
             <hr>
         </section>
@@ -89,6 +130,7 @@
         <br><br><br>
 
     </div>
+<<<<<<< Updated upstream
     <div class="video-container" id="video-container">
         <video oncontextmenu="return false;" controls="false" class="video-content" id="video" autoplay="true"
             muted="true" style="background-color:var(--bgcolorvideo);">
@@ -114,31 +156,60 @@
                         src="artwork/buttons/Moon_Yellow.png" /></a></butto>
 
 
+=======
+    <div  x-data="videoPlayer()">
+        <div class="video-container">
+            <video
+                class="video-content"
+                oncontextmenu="return false;"
+                autoplay="true"
+                muted="true"
+                style="background-color:var(--bgcolorvideo);"
+                :src="src"
+                :loop="looping"
+                x-ref="video"
+            >
+            </video>
+>>>>>>> Stashed changes
         </div>
-        <section class="btnContainer" id="BtnContainer">
-            <select name="asset-names" id="asset-names" onchange="firstDropdownChange();">
-                <option value="chooseValue">Click on a letter</option>
-            </select>
-            <select name="attribute-01" id="attribute-01" onchange="secondDropdownChange();">
+        <div class="button-container">
+            <h2 class="currentAsset" id="assetName">Arms of Hadar</h2>
+            <div class="uiBtn-container">
 
-            </select>
+                <button type="button" @click="togglePlaying()">
+                    <img class="uiBtn" id="playBtn" :src="playing ? './artwork/buttons/pause-button.png' : './artwork/buttons/play-button.png'">
+                </button>
 
+                <button type="button" @click="looping = !looping">
+                    <img class="uiBtn" :src="looping ? './artwork/buttons/Loop_Yellow.png' : './artwork/buttons/No-Loop_Yellow.png'">
+                </button>
 
+                <button type="button" @click="darkTheme = !darkTheme">
+                    <img class="uiBtn" :src="darkTheme ? './artwork/buttons/Sun_Yellow.png' : './artwork/buttons/Moon_Yellow.png'"/>
+                </button>
 
+            </div>
+            <section class="btnContainer" id="BtnContainer">
+                <select name="asset-names" id="asset-names" onchange="firstDropdownChange();">
+                    <option value="chooseValue">Click on a letter</option>
+                </select>
+                <select name="attribute-01" id="attribute-01" onchange="secondDropdownChange();">
+                </select>
 
-        </section>
-        <section class="copyText-container"><input class="input" id="filepath-input" type="text"
-                value="Path to free asset will appear here" /><button id="copy-text"
-                onclick="copy('filepath-input')">Path</button></section>
-                <section class="copyText-container"><input class="input" id="db-input" type="text"
+            </section>
+            <section class="copyText-container"><input class="input" id="filepath-input" type="text"
                     value="Path to free asset will appear here" /><button id="copy-text"
-                    onclick="copy('db-input')">DB</button></section>
+                    onclick="copy('filepath-input')">Path</button></section>
+                    <section class="copyText-container"><input class="input" id="db-input" type="text"
+                        value="Path to free asset will appear here" /><button id="copy-text"
+                        onclick="copy('db-input')">DB</button></section>
 
-        <p id="disclaimer"></p>
-        <a href="https://youtu.be/Y6ljFaKRTrI" id="ee-link" style="width: 1px; height: 1px;"></a>
+            <p id="disclaimer"></p>
+            <a href="https://youtu.be/Y6ljFaKRTrI" id="ee-link" style="width: 1px; height: 1px;"></a>
 
 
 
+        </div>
     </div>
 
 </body>

@@ -21,9 +21,12 @@ const currentLetter = "";
 let isFreeDB = true;
 let DB = filterObject(freeDatabase, '_template');
 
+<<<<<<< Updated upstream
 document.getElementById("video").loop = false;
 document.getElementById("looped").src = "artwork/buttons/No-Loop_Yellow.png";
 document.getElementById("free-switch").src = "artwork/buttons/Loop_Yellow.png";
+=======
+>>>>>>> Stashed changes
 document.getElementById("filepath-input").value = "Path to the asset can be copied from here";
 document.getElementById("db-input").value = "Sequencer Database path can be copied from here";
 
@@ -106,7 +109,11 @@ function freeSwitch() {
     DB = filterObject(patreonDatabase, '_template');
     //  log(isFreeDB);
     //  log(DB);
+<<<<<<< Updated upstream
     document.getElementById("free-switch").src = "artwork/buttons/No-Loop_Yellow.png";// Placeholder image
+=======
+    document.getElementById("free-switch").src = "./artwork/buttons/No-Loop_Yellow.png";// Placeholder image
+>>>>>>> Stashed changes
     if (document.getElementById('attribute-01').selectedIndex > -1) {
       firstDropdownChange()
     }
@@ -118,7 +125,11 @@ function freeSwitch() {
     DB = filterObject(freeDatabase, '_template');
     //  log(isFreeDB);
     //  log(DB);
+<<<<<<< Updated upstream
     document.getElementById("free-switch").src = "artwork/buttons/Loop_Yellow.png";// Placeholder image
+=======
+    document.getElementById("free-switch").src = "./artwork/buttons/Loop_Yellow.png";// Placeholder image
+>>>>>>> Stashed changes
 
   }
   if (document.getElementById('attribute-01').selectedIndex > -1) {
@@ -133,12 +144,20 @@ function freeSwitch() {
 function LoopedIcon() {
   if (document.getElementById("video").loop == true) {
     document.getElementById("video").loop = false;
+<<<<<<< Updated upstream
     document.getElementById("looped").src = "artwork/buttons/No-Loop_Yellow.png";
+=======
+    document.getElementById("looped").src = "./artwork/buttons/No-Loop_Yellow.png";
+>>>>>>> Stashed changes
 
   }
   else {
     document.getElementById("video").loop = true;
+<<<<<<< Updated upstream
     document.getElementById("looped").src = "artwork/buttons/Loop_Yellow.png";
+=======
+    document.getElementById("looped").src = "./artwork/buttons/Loop_Yellow.png";
+>>>>>>> Stashed changes
   }
 
 }
@@ -176,10 +195,17 @@ bodyClass.add(theme);
 
 
 if (current == "light") {
+<<<<<<< Updated upstream
   document.getElementById("themeIcon").src = "artwork/buttons/Sun_Yellow.png";
 }
 else {
   document.getElementById("themeIcon").src = "artwork/buttons/Moon_Yellow.png";
+=======
+  document.getElementById("themeIcon").src = "./artwork/buttons/Sun_Yellow.png";
+}
+else {
+  document.getElementById("themeIcon").src = "./artwork/buttons/Moon_Yellow.png";
+>>>>>>> Stashed changes
 }
 
 
@@ -190,10 +216,17 @@ function toggleTheme() {
 
 
   if (current == "dark") {
+<<<<<<< Updated upstream
     document.getElementById("themeIcon").src = "artwork/buttons/Sun_Yellow.png";
   }
   else {
     document.getElementById("themeIcon").src = "artwork/buttons/Moon_Yellow.png";
+=======
+    document.getElementById("themeIcon").src = "./artwork/buttons/Sun_Yellow.png";
+  }
+  else {
+    document.getElementById("themeIcon").src = "./artwork/buttons/Moon_Yellow.png";
+>>>>>>> Stashed changes
   }
 
 
@@ -311,7 +344,11 @@ function filterObject(obj, key) {
 //Bonus Content
 document.getElementById('ee-link').addEventListener("mouseover", function ee() {
   document.getElementById('ee-link').style = 'display: flex; justify-content: center; align-items:center; width: 150px; height: 100px; text-align: center; ';
+<<<<<<< Updated upstream
   document.getElementById('ee-link').innerHTML = '<img id="ee" style = "width: 50px; height: 50px;" src="artwork/buttons/stairs-cake.png"/>The cake is a lie !'
+=======
+  document.getElementById('ee-link').innerHTML = '<img id="ee" style = "width: 50px; height: 50px;" src="./artwork/buttons/stairs-cake.png"/>The cake is a lie !'
+>>>>>>> Stashed changes
 
 });
 
